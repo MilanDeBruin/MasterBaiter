@@ -12,13 +12,19 @@ public class UpgradeManager : MonoBehaviour
 
     void Awake()
     {
-        // Laad eerder opgeslagen upgrades
         MaxCatchCount = PlayerPrefs.GetInt("MaxCatchCount", 3);
         MaxDepthMultiplier = PlayerPrefs.GetFloat("MaxDepthMultiplier", 1);
         SellBonusMultiplier = PlayerPrefs.GetFloat("SellBonusMultiplier", 1);
     }
 
-    // Prijsberekening op basis van upgrade-niveau
+    private void Update()
+    {
+        PlayerPrefs.SetInt("MaxCatchCount", MaxCatchCount);
+        PlayerPrefs.SetFloat("MaxDepthMultiplier", MaxDepthMultiplier);
+        PlayerPrefs.SetFloat("SellBonusMultiplier", SellBonusMultiplier);
+        PlayerPrefs.Save();
+    }
+
     public int CalculatePrice(int currentLevel)
     {
         return DefaultPrice + (DefaultPrice * currentLevel);

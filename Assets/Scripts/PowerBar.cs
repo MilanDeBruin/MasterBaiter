@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems; // Voor de button interactie events
+using UnityEngine.EventSystems;
 
 public class PowerBar : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {

@@ -15,6 +15,8 @@ public class HookManager : MonoBehaviour
 
     private List<FishManager> CaughtFish = new List<FishManager>();
 
+    public float smoothTime = 0.3f;
+    private Vector3 velocity = Vector3.zero;
     private void ResetHook()
     {
         int totalCaught = 0;
@@ -69,16 +71,33 @@ public class HookManager : MonoBehaviour
             }
             else
             {
+                float reelSpeed = Time.deltaTime * 155f;
+                if (Input.GetMouseButton(0))
+                {
+                    reelSpeed = reelSpeed * 3;
+                }
+                    
                 Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 float mouseX = mouseWorldPosition.x;
-                float clampedX = Mathf.Clamp(mouseX, -125f, 125f);
+                float clampedX = Mathf.Clamp(mouseX, -130f, 130f);
 
-                HookTransform.position = new Vector3(
-                       clampedX,
-                       HookTransform.position.y + Time.deltaTime * 215f,
-                       HookTransform.position.z
-                   );
+                // Huidige positie van de haak
+                Vector3 currentPosition = HookTransform.position;
 
+                // Doelpositie van de haak op de x-as
+                float targetX = clampedX;
+
+                // Doelpositie van de haak op de y-as
+                float targetY = currentPosition.y + reelSpeed;
+
+                // Gebruik Vector3.SmoothDamp voor de x-as
+                float smoothedX = Mathf.SmoothDamp(currentPosition.x, targetX, ref velocity.x, smoothTime);
+
+                // Gebruik de huidige y-positie en voeg de y-beweging toe
+                float newY = targetY;
+
+                // Update de positie van de haak
+                HookTransform.position = new Vector3(smoothedX, newY, currentPosition.z);
             }
             return;
         }

@@ -2,6 +2,20 @@ using UnityEngine;
 
 public class FishManager : MonoBehaviour
 {
+    public enum FishType
+    {
+        Clownfish,
+        Salmon,
+        Tuna,
+        Shark,
+        Goldfish,
+        Angelfish,
+        Pufferfish,
+        Swordfish,
+        Catfish
+    }
+
+    [SerializeField] private FishType fishType;
     [SerializeField] private int FishValue = 1;
     [SerializeField] private float speed = 25f;
     [SerializeField] private float changeDirectionInterval = 3f;
@@ -9,6 +23,7 @@ public class FishManager : MonoBehaviour
     private float targetX;
 
     private Transform hookTransform;
+
     void Start()
     {
         targetX = Random.Range(-125f, 125f);
@@ -20,14 +35,83 @@ public class FishManager : MonoBehaviour
         if (hookTransform != null)
         {
             transform.position = hookTransform.position;
+            return;
         }
 
-
-        transform.position = new Vector3(
-            Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime),
-            transform.position.y,
-            transform.position.z
-        );
+        switch (fishType)
+        {
+            case FishType.Clownfish:
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime),
+                    transform.position.y,
+                    transform.position.z
+                );
+                break;
+            case FishType.Salmon:
+                // Uniek gedrag voor Salmon
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime),
+                    Mathf.Sin(Time.time) * 2,
+                    transform.position.z
+                );
+                break;
+            case FishType.Tuna:
+                // Uniek gedrag voor Tuna
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime),
+                    transform.position.y + Mathf.Sin(Time.time) * 0.5f,
+                    transform.position.z
+                );
+                break;
+            case FishType.Shark:
+                // Uniek gedrag voor Shark
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime * 1.5f),
+                    transform.position.y,
+                    transform.position.z
+                );
+                break;
+            case FishType.Goldfish:
+                // Uniek gedrag voor Goldfish
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime * 0.5f),
+                    Mathf.PingPong(Time.time, 1),
+                    transform.position.z
+                );
+                break;
+            case FishType.Angelfish:
+                // Uniek gedrag voor Angelfish
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime),
+                    Mathf.Cos(Time.time) * 1.5f,
+                    transform.position.z
+                );
+                break;
+            case FishType.Pufferfish:
+                // Uniek gedrag voor Pufferfish
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime * 0.8f),
+                    transform.position.y + Mathf.Sin(Time.time) * 0.3f,
+                    transform.position.z
+                );
+                break;
+            case FishType.Swordfish:
+                // Uniek gedrag voor Swordfish
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime * 2f),
+                    transform.position.y,
+                    transform.position.z
+                );
+                break;
+            case FishType.Catfish:
+                // Uniek gedrag voor Catfish
+                transform.position = new Vector3(
+                    Mathf.MoveTowards(transform.position.x, targetX, speed * Time.deltaTime * 0.7f),
+                    transform.position.y - Mathf.Abs(Mathf.Sin(Time.time)) * 0.1f,
+                    transform.position.z
+                );
+                break;
+        }
 
         if (transform.position.x == targetX)
         {

@@ -27,10 +27,14 @@ public class GameManager : MonoBehaviour
     {
         PowerBarManager.SetEnabled(hookManager.HookReadyToCast);
 
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             AddMoney(1000);
         }
+
+
+        PlayerPrefs.SetInt("Money", CurrentMoneyAmount);
+        PlayerPrefs.Save();
     }
 
     public void ThrowHook(float power)
